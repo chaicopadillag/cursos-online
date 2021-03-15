@@ -32,4 +32,21 @@ class CoursePolicy
             return false;
         }
     }
+
+    public function creator(User $user, Course $course)
+    {
+        if ($course->user_id === $user->id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function revision(User $user, Course $course)
+    {
+        if ((int) $course->status === 2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

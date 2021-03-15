@@ -5,9 +5,11 @@ namespace App\Http\Livewire\Teacher;
 use App\Models\Course;
 use App\Models\Section;
 use Livewire\Component;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CourseCurriculum extends Component
 {
+    use AuthorizesRequests;
     public $course;
     public $section;
     public $name;
@@ -18,12 +20,13 @@ class CourseCurriculum extends Component
 
     public function mount(Course $course)
     {
+        $this->authorize('creator', $course);
         $this->course  = $course;
         $this->section = new Section();
     }
     public function render()
     {
-        return view('livewire.teacher.course-curriculum')->layout('layouts.teacher');
+        return view('livewire.teacher.course-curriculum')->layout('layouts.teacher', ['course' => $this->course]);
     }
     public function edit(Section $section)
     {

@@ -1,11 +1,8 @@
 <div>
-    <x-slot name="course">
-        {{$course->slug}}
-    </x-slot>
     <h2 class="text-2xl font-bold">Lecciones del Curso</h2>
     <hr class="mt-2 mb-6">
     @foreach ($course->sections as $item)
-    <article class="card mb-6">
+    <article class="card mb-6" x-data="{open:true}">
         <div class="card-body bg-gray-200">
             @if ($section->id===$item->id)
             <form wire:submit.prevent="update">
@@ -16,7 +13,7 @@
             </form>
             @else
             <div class="flex justify-between items-center">
-                <h3 class="cursor-pointer">
+                <h3 class="cursor-pointer" x-on:click="open=!open">
                     <strong class="mr-2">
                         <i class="fas fa-angle-down text-gray-500"></i>
                         Sección:
@@ -32,7 +29,7 @@
                     </button>
                 </div>
             </div>
-            <div>
+            <div x-show="open">
                 @livewire('teacher.course-lesson', ['section' => $item], key($item->id))
             </div>
             @endif

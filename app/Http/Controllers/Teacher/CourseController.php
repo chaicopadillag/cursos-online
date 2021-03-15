@@ -12,11 +12,13 @@ use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('can:view-course')->only('index');
+        $this->middleware('can:create-course')->only('create', 'store');
+        $this->middleware('can:update-course')->only('edit', 'update', 'goals');
+        $this->middleware('can:delete-course')->only('destroy');
+    }
     public function index()
     {
         return view('teacher.courses.index');
@@ -91,6 +93,9 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
+
+        $this->authorize('creator', $course);
+
         $categories = Category::pluck('name', 'id');
         $levels     = Level::pluck('name', 'id');
         $prices     = Price::pluck('name', 'id');
@@ -107,6 +112,8 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
+        $this->authorize('creator', $course);
+
         $request->validate([
             'title'       => 'required',
             'subtitle'    => 'required',
@@ -150,5 +157,24 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         //
+    }
+    public function goals(Course $course)
+    {
+        $this->authorize('creator', $course);
+
+        return view('teacher.courses.goals', ['course' => $course]);
+    }
+
+    public function status(Course $course)
+    {
+        $course->status = 2;
+        $course->save();
+        $course->observation->delete();
+        return redirect()->route('teacher.courses.edit',$course);
+    }
+
+    public function observation(Course $course)
+    {
+        return view('teacher.courses.observation', ['course' => $course]);
     }
 }

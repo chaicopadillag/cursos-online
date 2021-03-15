@@ -37,13 +37,50 @@
                     <li class="leading-7 mb-1 border-l-4 pl-2 @tabIs('teacher.courses.curriculum',$course) border-green-500 text-gray-800 @else border-transparent @endif">
                         <a href="{{route('teacher.courses.curriculum',$course)}}">Lecciones del Curso</a>
                     </li>
-                    <li class="leading-7 mb-1 border-l-4 pl-2">
-                        <a href="">Metas del Curso</a>
+                    <li class="leading-7 mb-1 border-l-4 pl-2 @tabIs('teacher.courses.goals',$course) border-green-500 text-gray-800 @else border-transparent @endif">
+                        <a href="{{route('teacher.courses.goals',$course)}}">Metas del Curso</a>
                     </li>
-                    <li class="leading-7 mb-1 border-l-4 pl-2">
-                        <a href="">Estudiantes</a>
+                    <li class="leading-7 mb-1 border-l-4 pl-2 @tabIs('teacher.courses.students',$course) border-green-500 text-gray-800 @else border-transparent @endif">
+                        <a href="{{route('teacher.courses.students',$course)}}">Estudiantes</a>
                     </li>
+
+                    @if ($course->observation)
+                    <li class="leading-7 mb-1 border-l-4 pl-2 @tabIs('teacher.courses.observation',$course) border-green-500 text-gray-800 @else border-transparent @endif">
+                        <a href="{{route('teacher.courses.observation',$course)}}">Observaciones</a>
+                    </li>
+                    @endif
                 </ul>
+
+                <hr class="my-4">
+                <h2 class="font-bold text-lg mb-4">Estado del Curso</h2>
+                @switch($course->status)
+                @case(1)
+                <form method="POST" action="{{route('teacher.courses.status',$course)}}">
+                    @csrf
+                    <button type="submit" class="btn bg-blue-500 text-white">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Solicitar revición
+                    </button>
+                </form>
+                @break
+                @case(2)
+                <span class="tracking-wider text-white bg-yellow-500 px-6 py-2 text-sm rounded leading-loose font-semibold">
+                    <i class="fas fa-hourglass-half mr-2"></i>
+                    En revición
+                </span>
+                @break
+                @case(3)
+                <span class="tracking-wider text-white bg-green-500 px-6 py-2 text-sm rounded leading-loose font-semibold">
+                    <i class="fas fa-globe mr-2"></i>
+                    Publicado
+                </span>
+                @break
+                @default
+                <span class="tracking-wider text-white bg-red-500 px-6 py-2 text-sm rounded leading-loose font-semibold">
+                    <i class="fas fa-ban mr-2"></i>
+                    Rechazado
+                </span>
+                @endswitch
             </aside>
             <main class="col-span-4 card">
                 <div class="card-body text-gray-600">

@@ -99,4 +99,9 @@ class Course extends Model
     {
         return $this->hasManyThrough(Lesson::class, Section::class);
     }
+    // r uno a uno
+    public function observation()
+    {
+        return $this->hasOne(Observation::class);
+    }
 }

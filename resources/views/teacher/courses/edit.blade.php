@@ -1,7 +1,4 @@
-<x-teacher-layout>
-    <x-slot name="course">
-        {{$course->slug}}
-    </x-slot>
+<x-teacher-layout :course="$course">
     <h2 class="text-2xl font-bold">Información del Curso</h2>
     <hr class="mt-2 mb-6">
     {!! Form::model($course, ['route'=>['teacher.courses.update',$course],'method'=>'PUT','files'=>true]) !!}
