@@ -21,6 +21,7 @@ class CourseController extends Controller
     }
     public function index()
     {
+        // return 'hola';
         return view('teacher.courses.index');
     }
 
@@ -169,8 +170,11 @@ class CourseController extends Controller
     {
         $course->status = 2;
         $course->save();
-        $course->observation->delete();
-        return redirect()->route('teacher.courses.edit',$course);
+
+        if ($course->observation) {
+            $course->observation->delete();
+        }
+        return redirect()->route('teacher.courses.edit', $course);
     }
 
     public function observation(Course $course)

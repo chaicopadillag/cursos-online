@@ -260,6 +260,24 @@ return [
         ],
         ['header' => 'Opciones de Cursos'],
         [
+            'text'   => 'Categorias',
+            'route'  => 'dashboard.categories.index',
+            'active' => ['/dashboard/categories*'],
+            'icon'   => 'fas fa-fw fa-list',
+        ],
+        [
+            'text'   => 'Niveles',
+            'route'  => 'dashboard.levels.index',
+            'active' => ['/dashboard/levels*'],
+            'icon'   => 'fas fa-fw fa-signal',
+        ],
+        [
+            'text'   => 'Precios',
+            'route'  => 'dashboard.prices.index',
+            'active' => ['/dashboard/prices*'],
+            'icon'   => 'fas fa-fw fa-money-check-alt',
+        ],
+        [
             'text'  => 'Pendientes de Aprobación',
             'route' => 'dashboard.courses.index',
             'icon'  => 'fas fa-fw fa-hourglass-half',

@@ -18,7 +18,7 @@
         <div class="order-2 lg:col-span-2 lg:order-1">
             <section class="card">
                 <div class="card-body">
-                    <h2 class="font-bold text-2xl mb-2">Lo que aprenderás</h2>
+                    <h2 class="font-bold text-2xl mb-2 text-gray-800">Lo que aprenderás</h2>
                     <ul class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-6">
                         @foreach ($course->goals as $goal)
                         <li class="text-gray-700 text-base"><i class="fas fa-check text-gray-600 mr-2"></i> {{$goal->name}}</li>
@@ -27,7 +27,7 @@
                 </div>
             </section>
             <section class="py-8">
-                <h2 class="font-bold text-3xl mb-2">Temario</h2>
+                <h2 class="font-bold text-3xl mb-2 text-gray-800">Temario</h2>
                 @foreach ($course->sections as $section)
                 <article class="shadow mb-4" @if ($loop->first)
                     x-data="{open:true}"
@@ -49,7 +49,7 @@
                 @endforeach
             </section>
             <section class="mb-8">
-                <h2 class="font-bold text-3xl">Requisitos</h2>
+                <h2 class="font-bold text-3xl text-gray-800">Requisitos</h2>
                 <ul class="list-disc list-inside">
                     @foreach ($course->requirements as $requirement)
                     <li class="text-gray-600 text-base">{{$requirement->name}}</li>
@@ -60,6 +60,8 @@
                 <h2 class="text-3xl font-bold">Descripción</h2>
                 <div class="text-gray-600 text-base">{!!$course->description!!}</div>
             </section>
+
+            @livewire('course-review', ['course' => $course], key($course->id))
         </div>
         <div class="order-1 lg:order-1">
             <section class="card mb-4">
@@ -75,12 +77,18 @@
                     <a href="{{route('courses.learning',$course)}}" class="btn btn-danger btn-block mt-4"><i class="fas fa-play mr-2"></i>Continuar aprendiendo</a>
                     @else
 
+                    @if((int)$course->price->value===0)
                     <form action="{{route('courses.enrolled',$course)}}" method="POST">
                         @csrf
+                        <p class="text-2xl font-bold text-center text-green-500 my-2">GRATIS</p>
                         <button type="submit" class="btn btn-primary btn-block mt-4">
                             <i class="fas fa-check mr-2"></i>
-                            Inscribirse al curso</button>
+                            Llevar al curso</button>
                     </form>
+                    @else
+                    <p class="text-2xl text-center font-bold text-gray-500 my-2">US$ {{$course->price->value}}</p>
+                    <a href="{{route('payment.checkout',$course)}}" class="btn btn-primary btn-block"><i class="fas fa-dollar-sign mr-2"></i>Inscribirse al curso</a>
+                    @endif
                     @endcan
 
                 </div>
